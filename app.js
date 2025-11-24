@@ -1,6 +1,7 @@
-var express = require('express')
-const logger = require('morgan')
+var express = require('express');
+const logger = require('morgan');
 const axios = require('axios');
+const firebase = require('./firebase');
 
 var app = express()
 const port = 3000
@@ -25,6 +26,36 @@ app.get('/user', (req,res) => {
 app.post('/user', (req,res) => {
     console.log(req.body.name);
     res.send(req.body);
+})
+
+app.get('/likes', async (req,res) => {
+    var db = firebase.firestore();
+    const snapshot = await db.collection('likes').get().catch(e => console.log(e));
+    var results = [];
+    if (snapshot.empty){
+        console.log("No result");
+        res.json([]);
+        return;
+    } else {
+        snapshot.forEach(doc => {
+            results.push(doc.data())
+        })
+        res.json(results);
+    }
+})
+
+app.post('/likes', async (req,res) => {
+    let item = req.body;
+    let db = firebase.firestore();
+    let r = await db.collection('likes').doc(item.collectionId,toString()).set(item);
+
+    res.json({msg : 'OK'});
+})
+
+app.delete('/likes/:id', async (req, res) => {
+    let db = firebase.firestore();
+    let r = await db.collection('likes').doc(req.params.id).delete();
+    res.json({msg : 'OK'});
 })
 
 app.get('music_list', (req,res) => {
