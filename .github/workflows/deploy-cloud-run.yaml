@@ -24,7 +24,7 @@ jobs:
         uses: 'google-github-actions/get-secretmanager-secrets@v2'
         with:
           secrets: |-
-            FIREBASE_KEY:projects/960889850908/secrets/FIREBASE_KEY/versions/2
+            FIREBASE_KEY:projects/688379736031/secrets/FIREBASE_KEY/versions/2
           export_to_environment: true
           #secrets: projects/PROJECT_NUMBER/secrets/MY_SECRET_NAME/versions/latest
 
