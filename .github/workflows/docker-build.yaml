@@ -1,6 +1,8 @@
 name: build_and_push
 on:
   push:
+    paths-ignore:
+      - '.github/**'
 jobs:
   docker-build:
     runs-on: ubuntu-latest
